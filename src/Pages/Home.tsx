@@ -10,9 +10,9 @@ const Home: React.FC = () => {
   };
 
   return (
-    <Container>
+    <Container sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100vh' }}>
       <Typography variant="h4" gutterBottom>
-        Welcome to the Quiz App
+        Welcome to the AZ900 Quiz App
       </Typography>
       <Typography variant="body1" gutterBottom>
         Test your knowledge with our fun and interactive quizzes!

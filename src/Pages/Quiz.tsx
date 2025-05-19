@@ -97,6 +97,7 @@ const Quiz = () => {
           <Typography variant="h5">Results</Typography>
           {questionsSample.map((question, index) => (
             <QuizAnsBox
+              key={index}
               question={question as Question}
               userAnswer={selectedAnswers[index]}
             />
