@@ -10,10 +10,12 @@ import {
   Radio,
   TextField,
   Checkbox,
+  Tooltip,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import Attribute from "../Components/Attribute";
 
-const SetupQuiz: React.FC = () => {
+const SetupQuiz = () => {
   const [questionOrder, setQuestionOrder] = useState("random");
   const [numberOfQuestions, setNumberOfQuestions] = useState(10);
   const [startingQuestionNumber, setStartingQuestionNumber] = useState(0);
@@ -42,9 +44,18 @@ const SetupQuiz: React.FC = () => {
         alignItems: "center",
         justifyContent: "center",
         height: "100vh",
+        backgroundImage: 'url("/assets/bg.jpg")',
+        backgroundSize: "cover",
+        backgroundPosition: "center",
       }}
     >
-      <div style={{ border: "1px solid black", padding: "20px" }}>
+      <div
+        style={{
+          border: "1px solid black",
+          padding: "20px",
+          backgroundColor: "rgba(255, 255, 255, 0.8)",
+        }}
+      >
         <Typography variant="h4" gutterBottom>
           Setup Quiz
         </Typography>
@@ -54,16 +65,26 @@ const SetupQuiz: React.FC = () => {
             value={questionOrder}
             onChange={(e) => setQuestionOrder(e.target.value)}
           >
-            <FormControlLabel
-              value="sequential"
-              control={<Radio />}
-              label="Sequential"
-            />
-            <FormControlLabel
-              value="random"
-              control={<Radio />}
-              label="Random"
-            />
+            <Tooltip
+              title="Questions will be in the order from the database."
+              placement="right"
+            >
+              <FormControlLabel
+                value="sequential"
+                control={<Radio />}
+                label="Sequential"
+              />
+            </Tooltip>
+            <Tooltip
+              title="Questions will be in random order."
+              placement="right"
+            >
+              <FormControlLabel
+                value="random"
+                control={<Radio />}
+                label="Random"
+              />
+            </Tooltip>
           </RadioGroup>
         </FormControl>
         {questionOrder === "sequential" && (
@@ -114,6 +135,7 @@ const SetupQuiz: React.FC = () => {
           </Button>
         </div>
       </div>
+      <Attribute />
     </Container>
   );
 };

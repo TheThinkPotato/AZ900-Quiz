@@ -76,6 +76,7 @@ const QuizQuestion = ({
         minHeight: "600px",
         maxHeight: "100vh",
         height: "auto",
+        backgroundColor: "rgba(255, 255, 255)",
       }}
     >
       <article style={{ display: "flex", flexDirection: "column", flex: 1, marginInline: "1%",         overflowY: "auto", }}>

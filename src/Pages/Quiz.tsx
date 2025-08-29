@@ -73,10 +73,9 @@ const Quiz = () => {
         flexDirection: "column",
         height: "100vh",
         maxWidth: "1000px",
-        marginTop: "20px",
       }}
     >
-      <Typography variant="h4" gutterBottom>
+      <Typography variant="h4" gutterBottom sx={{ marginTop: "20px" }}>
         AZ900 Quiz Practice
       </Typography>
       {!showResults ? (
