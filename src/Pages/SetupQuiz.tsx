@@ -126,7 +126,7 @@ const SetupQuiz = () => {
           style={{
             display: "flex",
             justifyContent: "flex-end",
-            maxWidth: "500px",
+            minWidth: "300px",
             marginTop: "20px",
           }}
         >
