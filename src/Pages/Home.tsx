@@ -36,7 +36,7 @@ const Home = () => {
         backgroundPosition: "center",
       }}
     >
-      <Typography variant="h4" gutterBottom>
+      <Typography variant="h4" gutterBottom sx={{ textAlign: "center" }}>
         Welcome to the AZ900 Practice Quiz
       </Typography>
       <Typography

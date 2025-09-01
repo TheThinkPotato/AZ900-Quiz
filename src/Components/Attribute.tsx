@@ -6,13 +6,13 @@ const Attribute = () => {
       <Typography
         gutterBottom
         sx={{
-          backgroundColor: "white",
-          padding: "5px 10px 5px 10px",
+          backgroundColor: "rgba(255,255,255,0.5)",
+          padding: "1px 10px 1px 10px",
           borderRadius: "5px",
         }}
       >
         Site by Dan Lopez
-        <div style={{ fontSize: "12px", color: "gray" }}>
+        <div style={{ fontSize: "12px", color: "gray", marginTop: "-5px" }}>
           Image by kelly-sikkema on Unsplash
         </div>
       </Typography>
