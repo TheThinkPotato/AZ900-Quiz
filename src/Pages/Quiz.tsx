@@ -25,14 +25,36 @@ const Quiz = () => {
     } else {
       if (startingQuestionNumber > 0) {
         const startIndex = startingQuestionNumber - 1;
-        const endIndex = Math.min(startIndex + numberOfQuestions, questions.length);
+        const endIndex = Math.min(
+          startIndex + numberOfQuestions,
+          questions.length
+        );
         return questions.slice(startIndex, endIndex);
       } else {
-        const endIndex = Math.min(offsetIndex + numberOfQuestions, questions.length);
+        const endIndex = Math.min(
+          offsetIndex + numberOfQuestions,
+          questions.length
+        );
         return questions.slice(offsetIndex, endIndex);
       }
     }
   }, [questionOrder, offsetIndex, numberOfQuestions, startingQuestionNumber]);
+
+  const getFinalScore = ():string => {
+    return `${selectedAnswers.filter((answer, index) => {
+      // Safety check to ensure questionsSample[index] exists
+      if (!questionsSample[index] || !questionsSample[index].answer) {
+        return false;
+      }
+      const correctAnswer = questionsSample[index].answer
+        .replace(" ", "")
+        .split(",")
+        .sort()
+        .join(",");
+      const userAnswer = answer.replace(" ", "").split(",").sort().join(",");
+      return userAnswer === correctAnswer;
+    }).length} / ${questionsSample.length}`;
+  };
 
   // Initialize selectedAnswers array when questionsSample changes
   useEffect(() => {
@@ -92,7 +114,10 @@ const Quiz = () => {
         </>
       ) : (
         <div style={{ marginTop: "40px" }}>
+          <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
           <Typography variant="h5">Results</Typography>
+          <Typography variant="h5">Score:{" "}{getFinalScore()}</Typography>
+          </div>
           {questionsSample.map((question, index) => (
             <QuizAnsBox
               key={index}
@@ -110,27 +135,7 @@ const Quiz = () => {
             }}
           >
             <Typography variant="h6">
-              Score:{" "}
-              {
-                selectedAnswers.filter((answer, index) => {
-                  // Safety check to ensure questionsSample[index] exists
-                  if (!questionsSample[index] || !questionsSample[index].answer) {
-                    return false;
-                  }
-                  const correctAnswer = questionsSample[index].answer
-                    .replace(" ", "")
-                    .split(",")
-                    .sort()
-                    .join(",");
-                  const userAnswer = answer
-                    .replace(" ", "")
-                    .split(",")
-                    .sort()
-                    .join(",");
-                  return userAnswer === correctAnswer;
-                }).length
-              }{" "}
-              / {questionsSample.length}
+              Score: {getFinalScore()}
             </Typography>
             <div style={{ display: "flex", gap: "10px" }}>
               <Button
