@@ -1101,7 +1101,7 @@
   },
   {
     "id": 101,
-    "question": "What is the primary focus of the three basic concepts of fiscal conversation mentioned in the article?",
+    "question": "What is the primary focus of the three basic concepts of fiscal conversation mentioned in the article?\n\nMicrosoft Azure is a cloud computing platform that provides a wide range of services for building, deploying, and managing applications. The three core concepts of Azure are Compute, Storage, and Networking. These represent the foundation of most cloud solutions: Compute handles processing power for applications and virtual machines, Storage manages data and file storage across different services, and Networking connects resources securely within Azure and to the internet. Understanding these concepts is essential for effectively using Azure’s capabilities.",
     "options": {
       "A": "Employee satisfaction",
       "B": "Customer engagement",
@@ -2278,7 +2278,7 @@
   },
   {       
     "id": 208,
-    "question": "Olivia is working on cloud services and finds some benefits in this regard. Which of the following is best suited for the given statement?",
+    "question": "Olivia is working on cloud services and finds some benefits in this regard. Which of the following is best suited for the given statement? \n\"The users with the minimum time can access all Cloud services\".",
     "options": {
       "A": "Low Latency",
       "B": "Dynamic Scalability",

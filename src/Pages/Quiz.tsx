@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 import { Button, Container, Typography } from "@mui/material";
 import questions from "../Data/questions.json";
 import QuizAnsBox, { Question } from "../Components/QuizAnsBox";
@@ -11,9 +11,7 @@ const Quiz = () => {
   const { questionOrder, numberOfQuestions, startingQuestionNumber } =
     location.state || {};
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [selectedAnswers, setSelectedAnswers] = useState<string[]>(
-    Array(questions.slice(0, numberOfQuestions).length).fill("")
-  );
+  const [selectedAnswers, setSelectedAnswers] = useState<string[]>([]);
   const [showResults, setShowResults] = useState(false);
 
   const offsetIndex = useMemo(() => {
@@ -23,22 +21,23 @@ const Quiz = () => {
   const questionsSample = useMemo(() => {
     if (questionOrder === "random") {
       const shuffledQuestions = [...questions].sort(() => Math.random() - 0.5);
-      return shuffledQuestions.slice(
-        offsetIndex,
-        offsetIndex + numberOfQuestions
-      );
+      return shuffledQuestions.slice(0, numberOfQuestions);
     } else {
       if (startingQuestionNumber > 0) {
-        return questions.slice(
-          startingQuestionNumber - 1,
-          startingQuestionNumber + numberOfQuestions - 1
-        );
+        const startIndex = startingQuestionNumber - 1;
+        const endIndex = Math.min(startIndex + numberOfQuestions, questions.length);
+        return questions.slice(startIndex, endIndex);
       } else {
-        console.log(offsetIndex, numberOfQuestions);
-        return questions.slice(offsetIndex, offsetIndex + numberOfQuestions);
+        const endIndex = Math.min(offsetIndex + numberOfQuestions, questions.length);
+        return questions.slice(offsetIndex, endIndex);
       }
     }
   }, [questionOrder, offsetIndex, numberOfQuestions, startingQuestionNumber]);
+
+  // Initialize selectedAnswers array when questionsSample changes
+  useEffect(() => {
+    setSelectedAnswers(Array(questionsSample.length).fill(""));
+  }, [questionsSample]);
 
   const handleAnswerChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newAnswers = [...selectedAnswers];
@@ -114,6 +113,10 @@ const Quiz = () => {
               Score:{" "}
               {
                 selectedAnswers.filter((answer, index) => {
+                  // Safety check to ensure questionsSample[index] exists
+                  if (!questionsSample[index] || !questionsSample[index].answer) {
+                    return false;
+                  }
                   const correctAnswer = questionsSample[index].answer
                     .replace(" ", "")
                     .split(",")

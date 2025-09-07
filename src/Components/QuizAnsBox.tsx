@@ -60,7 +60,10 @@ const QuizAnsBox = ({ userAnswer, question }: QuizAnsBoxProps) => {
                     width: "fit-content",
                     paddingInline: "5px",
                     borderRadius: "5px",
-                    backgroundColor: question.answer.split(",").includes(key)
+                    backgroundColor: question.answer
+                      .split(",")
+                      .map(answer => answer.trim())
+                      .includes(key)
                       ? "rgba(144, 238, 144, 0.3)"
                       : "transparent",
                   }}

@@ -14,6 +14,7 @@ import {
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import Attribute from "../Components/Attribute";
+import questions from "../Data/questions.json";
 
 const SetupQuiz = () => {
   const [questionOrder, setQuestionOrder] = useState("random");
@@ -21,8 +22,16 @@ const SetupQuiz = () => {
   const [startingQuestionNumber, setStartingQuestionNumber] = useState(0);
   const [showStartingNumber, setShowStartingNumber] = useState(false);
   const navigate = useNavigate();
+  
+  const totalQuestions = questions.length;
+  const maxQuestionsForSequential = questionOrder === "sequential" && startingQuestionNumber > 0 
+    ? totalQuestions - startingQuestionNumber + 1 
+    : totalQuestions;
 
   const handleStartQuiz = () => {
+    if (numberOfQuestions > maxQuestionsForSequential) {
+      return; // Don't start quiz if too many questions requested
+    }
     navigate("/quiz", {
       state: { questionOrder, numberOfQuestions, startingQuestionNumber },
     });
@@ -35,6 +44,13 @@ const SetupQuiz = () => {
       setStartingQuestionNumber(0);
     }
   }, [showStartingNumber]);
+
+  // Auto-adjust numberOfQuestions if it exceeds the maximum available
+  useEffect(() => {
+    if (numberOfQuestions > maxQuestionsForSequential) {
+      setNumberOfQuestions(Math.max(1, maxQuestionsForSequential));
+    }
+  }, [maxQuestionsForSequential, numberOfQuestions]);
 
   return (
     <Container
@@ -118,9 +134,19 @@ const SetupQuiz = () => {
           type="number"
           value={numberOfQuestions}
           onChange={(e) => setNumberOfQuestions(Number(e.target.value))}
-          inputProps={{ min: 1, max: 100 }}
+          inputProps={{ min: 1, max: maxQuestionsForSequential }}
           fullWidth
           margin="normal"
+          error={numberOfQuestions > maxQuestionsForSequential}
+          helperText={
+            numberOfQuestions > maxQuestionsForSequential
+              ? `Maximum ${maxQuestionsForSequential} questions available${
+                  questionOrder === "sequential" && startingQuestionNumber > 0
+                    ? ` (starting from question ${startingQuestionNumber})`
+                    : ""
+                }`
+              : `Total questions available: ${totalQuestions}`
+          }
         />
         <div
           style={{
@@ -130,7 +156,12 @@ const SetupQuiz = () => {
             marginTop: "20px",
           }}
         >
-          <Button variant="contained" color="primary" onClick={handleStartQuiz}>
+          <Button 
+            variant="contained" 
+            color="primary" 
+            onClick={handleStartQuiz}
+            disabled={numberOfQuestions > maxQuestionsForSequential || numberOfQuestions < 1}
+          >
             Start Quiz
           </Button>
         </div>
