@@ -40,7 +40,7 @@ const QuizQuestion = ({
 }: QuizQuestionProps) => {
   const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
-    const currentAnswers = selectedAnswers[currentQuestionIndex]
+    const currentAnswers = selectedAnswers[currentQuestionIndex] && selectedAnswers[currentQuestionIndex] !== ""
       ? selectedAnswers[currentQuestionIndex].split(",")
       : [];
 
@@ -141,7 +141,7 @@ const QuizQuestion = ({
                       <Checkbox
                         checked={selectedAnswers[currentQuestionIndex]
                           ?.split(",")
-                          .includes(key)}
+                          .includes(key) || false}
                         onChange={handleCheckboxChange}
                         value={key}
                       />
@@ -152,7 +152,7 @@ const QuizQuestion = ({
               </FormGroup>
             ) : (
               <RadioGroup
-                value={selectedAnswers[currentQuestionIndex]}
+                value={selectedAnswers[currentQuestionIndex] || ""}
                 onChange={handleAnswerChange}
               >
                 {Object.entries(currentQuestion.options).map(([key, value]) => (
